@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.33027.164
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TRGameflow", "TRGameflow.vcxproj", "{C5BF1BED-4522-41F6-A4D9-256395AC3F59}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C5BF1BED-4522-41F6-A4D9-256395AC3F59}.Debug|x64.ActiveCfg = Debug|x64
+		{C5BF1BED-4522-41F6-A4D9-256395AC3F59}.Debug|x64.Build.0 = Debug|x64
+		{C5BF1BED-4522-41F6-A4D9-256395AC3F59}.Debug|x86.ActiveCfg = Debug|Win32
+		{C5BF1BED-4522-41F6-A4D9-256395AC3F59}.Debug|x86.Build.0 = Debug|Win32
+		{C5BF1BED-4522-41F6-A4D9-256395AC3F59}.Release|x64.ActiveCfg = Release|x64
+		{C5BF1BED-4522-41F6-A4D9-256395AC3F59}.Release|x64.Build.0 = Release|x64
+		{C5BF1BED-4522-41F6-A4D9-256395AC3F59}.Release|x86.ActiveCfg = Release|Win32
+		{C5BF1BED-4522-41F6-A4D9-256395AC3F59}.Release|x86.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {7206F2AF-3768-41AB-ACDA-4F96F1664BAB}
+	EndGlobalSection
+EndGlobal
