@@ -93,6 +93,10 @@ void InitScriptData()
 	gameflow.cheat_enable = 0;
 	gameflow.securitytag = 0;
 
+	gameflow.map_enabled = 1;
+	gameflow.globe_enabled = 1;
+	gameflow.force_water_color = 0;
+
 	gameflow.cypher_code = 0;
 	gameflow.language = 0;
 	gameflow.secret_track = 0;
@@ -264,6 +268,89 @@ long ReadOption(char* buf)
 	return -1;	//this is the "do nothing" flag
 }
 
+short ReadDeath(char* buf)
+{
+	if (!strncmp(buf, "LAVA", strlen(buf)))
+		return DEATH_LAVA;
+
+	if (!strncmp(buf, "RAPIDS", strlen(buf)))
+		return DEATH_RAPIDS;
+
+	if (!strncmp(buf, "ELECTRIC", strlen(buf)))
+		return DEATH_ELECTRIC;
+
+	//Default:
+	return DEATH_LAVA;
+}
+
+long ReadColor(char* buf)	//heavily assumes builders don't make mistakes (which is probably a mistake on my end)
+{
+	long r, g, b, l, lp, lp2;
+	char rb[4];
+	char gb[4];
+	char bb[4];
+
+	l = strlen(buf);
+
+	for (lp = 0, lp2 = 0; lp < l; lp++)
+	{
+		if (buf[lp] == ' ' || buf[lp] == '\t')
+			continue;
+
+		rb[lp2++] = buf[lp];
+
+		if (buf[lp + 1] == ',')
+		{
+			lp += 2;
+			break;
+		}
+	}
+
+	rb[lp2] = 0;
+
+	for (lp2 = 0; lp < l; lp++)
+	{
+		if (buf[lp] == ' ' || buf[lp] == '\t')
+			continue;
+
+		gb[lp2++] = buf[lp];
+
+		if (buf[lp + 1] == ',')
+		{
+			lp += 2;
+			break;
+		}
+	}
+
+	gb[lp2] = 0;
+
+	for (lp2 = 0; lp < l; lp++)
+	{
+		if (buf[lp] == ' ' || buf[lp] == '\t')
+			continue;
+
+		bb[lp2++] = buf[lp];
+
+		if (!buf[lp + 1])
+			break;
+	}
+
+	bb[lp2] = 0;
+
+	r = atoi(rb);
+	g = atoi(gb);
+	b = atoi(bb);
+
+	if (r > 255) r = 255;
+	if (g > 255) g = 255;
+	if (b > 255) b = 255;
+	if (r < 0) r = 0;
+	if (g < 0) g = 0;
+	if (b < 0) b = 0;
+
+	return (r << 16 | g << 8 | b);
+}
+
 char* InsertFileName(char* buf)
 {
 	strcpy(GF_namebuffer[num_namebuffer++], buf);
@@ -299,6 +386,10 @@ short GetSequenceSize(short* sequence)	//returns sequence size in BYTES, not sho
 	{
 		switch (sequence[i])
 		{
+			//These events have two extra 2bytes of data so increment twice, and continue
+		case GFE_WATERCLR:
+			i++;
+
 			//These events have one extra 2bytes of data so increment and continue
 		case GFE_PICTURE:
 		case GFE_PLAYFMV:
@@ -313,6 +404,7 @@ short GetSequenceSize(short* sequence)	//returns sequence size in BYTES, not sho
 		case GFE_ADD2INV:
 		case GFE_STARTANIM:
 		case GFE_NUMSECRETS:
+		case GFE_DEATHTILE:
 			i++;
 
 			//These events do not have any extra data so continue
@@ -325,6 +417,10 @@ short GetSequenceSize(short* sequence)	//returns sequence size in BYTES, not sho
 		case GFE_GAMECOMPLETE:
 		case GFE_KILL2COMPLETE:
 		case GFE_REMOVE_AMMO:
+		case GFE_RAIN:
+		case GFE_SNOW:
+		case GFE_WATER_PARTS:
+		case GFE_COLD:
 			break;
 
 			//End of sequence: return amount of 2bytes we cycled through

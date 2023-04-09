@@ -316,6 +316,29 @@ void ReadMainOptions(FILE* fp)
 			continue;
 		}
 
+		/*New main settings commands*/
+
+		if (!strcmp(cmd, "MAP"))
+		{
+			printf("Found map option");
+			gameflow.map_enabled = atoi(value);
+			continue;
+		}
+
+		if (!strcmp(cmd, "GLOBE"))
+		{
+			printf("Found globe option");
+			gameflow.globe_enabled = atoi(value);
+			continue;
+		}
+
+		if (!strcmp(cmd, "WATER"))
+		{
+			printf("Found force water color option");
+			gameflow.force_water_color = atoi(value);
+			continue;
+		}
+
 		if (!strcmp(cmd, "END"))
 		{
 			printf("Found END.\n");
@@ -694,6 +717,55 @@ void ReadLevelOptions(FILE* fp, short* sequence, short level, long type)
 		{
 			printf("Found psxdemo, use pcdemo instead!");
 			continue;
+		}
+
+		/*NEW EVENTS*/
+
+		if (!strcmp(cmd, "RAIN"))
+		{
+			printf("Found rain\n");
+			*sequence++ = GFE_RAIN;
+			continue;
+		}
+
+		if (!strcmp(cmd, "SNOW"))
+		{
+			printf("Found snow\n");
+			*sequence++ = GFE_SNOW;
+			continue;
+		}
+
+		if (!strcmp(cmd, "WATERPARTS"))
+		{
+			printf("Found waterparts\n");
+			*sequence++ = GFE_WATER_PARTS;
+			continue;
+		}
+
+		if (!strcmp(cmd, "COLD"))
+		{
+			printf("Found cold\n");
+			*sequence++ = GFE_COLD;
+			continue;
+		}
+
+		if (!strcmp(cmd, "DEATH"))
+		{
+			printf("Found death\n");
+			sequence[0] = GFE_DEATHTILE;
+			sequence[1] = ReadDeath(value);
+			sequence += 2;
+			continue;
+		}
+
+		if (!strcmp(cmd, "WATERCLR"))
+		{
+			printf("Found water color\n");
+			l = ReadColor(value);
+			sequence[0] = GFE_WATERCLR;
+			sequence[1] = l & 0xFFFF;			//LOWORD
+			sequence[2] = (l >> 16) & 0xFFFF;	//HIWORD
+			sequence += 3;
 		}
 
 		if (!strcmp(cmd, "COMPLETE"))

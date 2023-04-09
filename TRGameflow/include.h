@@ -53,7 +53,14 @@ typedef enum gf_event_types_t
 	GFE_STARTANIM,
 	GFE_NUMSECRETS,
 	GFE_KILL2COMPLETE,
-	GFE_REMOVE_AMMO
+	GFE_REMOVE_AMMO,
+	//NEW EVENTS:
+	GFE_RAIN,
+	GFE_SNOW,
+	GFE_WATER_PARTS,
+	GFE_COLD,
+	GFE_DEATHTILE,
+	GFE_WATERCLR,
 } gf_event_types;
 
 typedef enum game_string_ids_t
@@ -284,6 +291,13 @@ typedef enum psx_string_ids_t
 	PSSTR_NUM_STRINGS
 } psx_string_ids;
 
+typedef enum death_tiles_t
+{
+	DEATH_LAVA,
+	DEATH_RAPIDS,
+	DEATH_ELECTRIC
+} death_tiles;
+
 typedef struct gameflow_info_t
 {
 	long firstOption;
@@ -316,7 +330,11 @@ typedef struct gameflow_info_t
 	ushort play_any_level : 1;
 	ushort cheat_enable : 1;
 	ushort securitytag : 1;
-	ushort unused3[3];
+//	ushort unused3[3];
+	ushort unused3[2];
+	ushort map_enabled : 1;
+	ushort globe_enabled : 1;
+	ushort force_water_color : 1;
 	uchar cypher_code;
 	uchar language;
 	uchar secret_track;
